@@ -88,7 +88,6 @@ Contributions are highly welcome. Feel free to fork, clone, make pull requests, 
 
 - Many thanks to [@bradtraversy](https://github.com/bradtraversy) for his awesome courses - _i will not fail you sensei_
 - Thanks to [@torvalds](https://github.com/torvalds) For Making the world a better place
-- And To anyone reading this... _You're awesome!_
 
-That being said
-_<p align="center">To the Front... to the Back... End to End... cut no slack. Making ends meet. lol</p>_
+
+
