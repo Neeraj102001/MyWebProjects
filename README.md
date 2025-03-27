@@ -1,84 +1,100 @@
 # Netflix Clone
 
-Clone of the Netflix website as a light HTML CSS and JS excercise 
+This project is a clone of the Netflix website, created as a practice exercise to demonstrate user authentication and basic web development skills. The application features user registration and login functionalities, allowing users to create accounts and access the platform.
 
-## What it is
+## Table of Contents
 
-A basic warmup exercise. Simple, practice oriented, clone of the Netflix Homepage. Built with:
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Setup Instructions](#setup-instructions)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [Acknowledgments](#acknowledgments)
 
-- HTML
-- CSS
-- Vanilla JS - ES6
+## Project Overview
 
-## What it does
+The Netflix Clone is designed to mimic the user interface and experience of the popular streaming service, Netflix. It is built using HTML, CSS, and JavaScript for the frontend, with a Node.js and Express backend. MongoDB is utilized for data storage, specifically for user information.
 
-- Its Exactly like Netflix , that's about it :-)
+## Features
 
-## Learning Points
+- User registration (signup) functionality
+- User login functionality
+- Responsive design for various screen sizes
+- Modal forms for user authentication
+- Basic styling using CSS
 
-- CSS Grid
-- Styling Tables
-- Tabs with Javascript
-- Positioning
+## Technologies Used
 
-## Some cool stuff
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Authentication**: Bcrypt for password hashing
 
-Usually, people tend to run to CSS Frameworks to develop and style tabs and switching tabs. But here's a pretty simple, basic way of creating switchable tab content using Vanilla JS:
+## Setup Instructions
 
-```javascript
-const tabItems = document.querySelectorAll(".tab-item");
-const tabContentItems = document.querySelectorAll(".tab-content-item");
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/yourusername/netflix-clone.git
+   cd netflix-clone
+   ```
 
-// Select tab content
-function selectItem(e) {
-  removeBorder();
-  removeShow();
-  // Add border to current tab
-  this.classList.add("tab-border");
-  // Grab content item from DOM
-  const tabContentItem = document.querySelector(`#${this.id}-content`);
-  // Add show class
-  tabContentItem.classList.add("show");
-}
-function removeBorder() {
-  tabItems.forEach(item => item.classList.remove("tab-border"));
-}
-function removeShow() {
-  tabContentItems.forEach(item => item.classList.remove("show"));
-}
-// Listen for tab click
-tabItems.forEach(item => item.addEventListener("click", selectItem));
-```
+2. **Install Dependencies**:
+   - Navigate to the backend directory and install the required packages:
+   ```bash
+   npm install
+   ```
 
-And for the HTML All you really need is this:
+3. **Set Up Environment Variables**:
+   - Create a `.env` file in the root of the project and add the following:
+   ```plaintext
+   PORT=5000
+   MONGO_URI=your_mongodb_connection_string
+   ```
 
-```html
-<!-- Content Pretty Long so I'll add later -->
-<!-- But this is the basic gist -->
-<div class="tab-item">
-  <!-- Selectors for the different tab content -->
-</div>
-<div class="tab-content-item">
-  <!-- Content of each tab item -->
-</div>
-<!-- Simply add more selectors and corresponding 
-tab content for each selector -->
-```
+4. **Start the Server**:
+   - Run the following command to start the server:
+   ```bash
+   node server.js
+   ```
 
-> Also (Just a thought), You could advance this by adding some animations to the selector borders etc.
+5. **Open the Frontend**:
+   - Open `index.html` in a web browser to view the application.
 
-## Features in Development
+## Usage
 
-I might add the other pages on the Netflix website if I ever come back to refactor ^-^
+- **Signup**: Users can click on the "Sign In" button to open the login modal. They can switch to the signup form to create a new account.
+- **Login**: Users can enter their credentials to log in. Upon successful login, they will gain access to the application.
 
-## Contribution
+## Contributing
 
-Contributions are highly welcome. Feel free to fork, clone, make pull requests, report issues etc.
+Contributions to the project are welcome. Interested individuals can fork the repository, make changes, and submit a pull request. Users are also encouraged to report issues or suggest features.
 
 ## Acknowledgments
 
-- Many thanks to [@bradtraversy](https://github.com/bradtraversy) for his awesome courses - _i will not fail you sensei_
-- Thanks to [@torvalds](https://github.com/torvalds) For Making the world a better place
+- Special thanks to [@bradtraversy](https://github.com/bradtraversy) for providing inspiration and guidance through his educational content.
+- Appreciation is extended to [@torvalds](https://github.com/torvalds) for his contributions to the open-source community.
 
+```
 
+### Instructions to Update the README on GitHub
 
+1. **Open Your Repository**: Navigate to your GitHub repository where the project is hosted.
+
+2. **Edit the README.md File**:
+   - Click on the `README.md` file in your repository.
+   - Click the pencil icon (✏️) to edit the file.
+
+3. **Replace the Content**: Copy the updated README content provided above and paste it into the editor.
+
+4. **Commit Changes**:
+   - Scroll down to the bottom of the page.
+   - Add a commit message (e.g., "Updated README with third-person perspective").
+   - Choose to commit directly to the `main` branch or create a new branch for the changes.
+   - Click **"Commit changes"**.
+
+5. **View the Updated README**: Return to the main page of your repository to see the updated README.
+
+### Conclusion
+
+This README provides a clear and concise overview of the Netflix clone projec. It includes essential information about the project, its features, setup instructions, and how to contribute.
