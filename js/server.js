@@ -1,49 +1,23 @@
-// Function to open modals
-function showModal(modalId) {
-    document.getElementById(modalId).style.display = "block";
-}
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const authRoutes = require('./routes/auth');
+const dotenv = require('dotenv');
 
-// Function to close modals
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = "none";
-}
+dotenv.config();
 
-// Handle Login Form Submission
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = e.target[0].value;
-    const password = e.target[1].value;
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
 
-    // Call your API for login
-    const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-    });
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
 
-    const data = await response.json();
-    if (data.message === 'Login successful!') {
-        alert("Login successful!");
-        closeModal('loginModal');
-    } else {
-        alert(data.message);
-    }
-});
+app.use('/api', authRoutes);
 
-// Handle Signup Form Submission
-document.getElementById('signupForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = e.target[0].value;
-    const email = e.target[1].value;
-    const password = e.target[2].value;
-
-    // Call your API for signup
-    const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-    });
-
-    const data = await response.json();
-    alert(data.message);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
