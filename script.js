@@ -1,151 +1,97 @@
-const startButton = document.getElementById('start-btn')
-const nextButton = document.getElementById('next-btn')
-const questionContainerElement = document.getElementById('question-container')
-const questionElement = document.getElementById('question')
-const answerButtonsElement = document.getElementById('answer-buttons')
+// Improved Quiz App with better UI and real-time random questions
 
-let shuffledQuestions, currentQuestionIndex
+const startButton = document.getElementById('start-btn');
+const nextButton = document.getElementById('next-btn');
+const questionContainerElement = document.getElementById('question-container');
+const questionElement = document.getElementById('question');
+const answerButtonsElement = document.getElementById('answer-buttons');
+const timerElement = document.getElementById('timer');
 
-startButton.addEventListener('click', startGame)
+let shuffledQuestions, currentQuestionIndex;
+let timeLeft = 10;
+let timer;
+
+// Fetch real-time questions from Open Trivia API
+async function fetchQuestions() {
+  try {
+    const response = await fetch('https://opentdb.com/api.php?amount=5&type=multiple');
+    const data = await response.json();
+    return data.results.map(q => ({
+      question: q.question,
+      answers: [...q.incorrect_answers, q.correct_answer].sort(() => Math.random() - 0.5),
+      correct: q.correct_answer
+    }));
+  } catch (error) {
+    console.error('Error fetching questions:', error);
+    return [];
+  }
+}
+
+startButton.addEventListener('click', startGame);
 nextButton.addEventListener('click', () => {
-  currentQuestionIndex++
-  setNextQuestion()
-})
+  currentQuestionIndex++;
+  setNextQuestion();
+});
 
-function startGame() {
-  startButton.classList.add('hide')
-  shuffledQuestions = questions.sort(() => Math.random() - .5)
-  currentQuestionIndex = 0
-  questionContainerElement.classList.remove('hide')
-  setNextQuestion()
+async function startGame() {
+  startButton.classList.add('hide');
+  shuffledQuestions = await fetchQuestions();
+  currentQuestionIndex = 0;
+  questionContainerElement.classList.remove('hide');
+  setNextQuestion();
 }
 
 function setNextQuestion() {
-  resetState()
-  showQuestion(shuffledQuestions[currentQuestionIndex])
+  resetState();
+  if (currentQuestionIndex < shuffledQuestions.length) {
+    showQuestion(shuffledQuestions[currentQuestionIndex]);
+    startTimer();
+  } else {
+    alert('Quiz Completed!');
+    startButton.innerText = 'Restart';
+    startButton.classList.remove('hide');
+  }
 }
 
 function showQuestion(question) {
-  questionElement.innerText = question.question
+  questionElement.innerHTML = question.question;
   question.answers.forEach(answer => {
-    const button = document.createElement('button')
-    button.innerText = answer.text
-    button.classList.add('btn')
-    if (answer.correct) {
-      button.dataset.correct = answer.correct
-    }
-    button.addEventListener('click', selectAnswer)
-    answerButtonsElement.appendChild(button)
-  })
+    const button = document.createElement('button');
+    button.innerText = answer;
+    button.classList.add('btn');
+    button.addEventListener('click', () => selectAnswer(answer, question.correct));
+    answerButtonsElement.appendChild(button);
+  });
+}
+
+function selectAnswer(selected, correct) {
+  clearInterval(timer);
+  if (selected === correct) {
+    alert('Correct!');
+  } else {
+    alert('Wrong! Correct answer: ' + correct);
+  }
+  nextButton.classList.remove('hide');
 }
 
 function resetState() {
-  clearStatusClass(document.body)
-  nextButton.classList.add('hide')
-  while (answerButtonsElement.firstChild) {
-    answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-  }
+  clearInterval(timer);
+  timerElement.innerText = '';
+  answerButtonsElement.innerHTML = '';
+  nextButton.classList.add('hide');
 }
 
-function selectAnswer(e) {
-  const selectedButton = e.target
-  const correct = selectedButton.dataset.correct
-  setStatusClass(document.body, correct)
-  Array.from(answerButtonsElement.children).forEach(button => {
-    setStatusClass(button, button.dataset.correct)
-  })
-  if (shuffledQuestions.length > currentQuestionIndex + 1) {
-    nextButton.classList.remove('hide')
-  } else {
-    startButton.innerText = 'Restart'
-    startButton.classList.remove('hide')
-  }
-}
-
-function setStatusClass(element, correct) {
-  clearStatusClass(element)
-  if (correct) {
-    element.classList.add('correct')
-  } else {
-    element.classList.add('wrong')
-  }
-}
-
-function clearStatusClass(element) {
-  element.classList.remove('correct')
-  element.classList.remove('wrong')
-}
-
-const questions = [
-  {
-    question: 'What is 2 + 2?',
-    answers: [
-      { text: '4', correct: true },
-      { text: '22', correct: false }
-    ]
-  },
-  {
-    question: 'Who is the best wicketkeeper?',
-    answers: [
-      { text: 'MS Dhoni', correct: true },
-      { text: 'Dinesh Kartik', correct: false },
-      { text: 'Rishab Pant', correct: false },
-      { text: 'Sanju Samson', correct: false }
-    ]
-  },
-  {
-    question: 'Is web development fun?',
-    answers: [
-      { text: 'Kinda', correct: false },
-      { text: 'YES!!!', correct: true },
-      { text: 'Um no', correct: false },
-      { text: 'IDK', correct: false }
-    ]
-  },
-  {
-    question: 'What is 4 * 2?',
-    answers: [
-      { text: '6', correct: false },
-      { text: '8', correct: true }
-    ]
-  }
-    ,
-    {
-      question: 'What is capital of India ?',
-      answers: [
-        { text: 'Old Delhi', correct: false },
-        { text: 'Kolkata', correct: false },
-        { text: 'New Delhi', correct: true },
-        { text: 'Punjab', correct: false }
-      ]
-    },
-    {
-      question: 'What is capital of Uttar Pradesh ?',
-      answers: [
-        { text: 'Lal bagh', correct: false },
-        { text: 'Kolkata', correct: false },
-        { text: 'Lucknow', correct: true },
-        { text: 'Punjab', correct: false }
-      ]
-    },
-
-    {
-      question: 'What is currency of India ?',
-      answers: [
-        { text: 'Diram', correct: false },
-        { text: 'Riyal', correct: false },
-        { text: 'INR', correct: true },
-        { text: 'USD', correct: false }
-      ]
-    },
-    {
-      question: 'Who is prime minister of India ?',
-      answers: [
-        { text: 'Amit Shah', correct: false },
-        { text: 'Narendra Modi', correct: true },
-        { text: 'Ramnath Kovind', correct: false },
-        { text: 'S Jaishanker', correct: false }
-      ]
+function startTimer() {
+  timeLeft = 10;
+  timerElement.innerText = `Time Left: ${timeLeft}s`;
+  timer = setInterval(() => {
+    timeLeft--;
+    timerElement.innerText = `Time Left: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      alert('Time up! Moving to next question.');
+      currentQuestionIndex++;
+      setNextQuestion();
     }
-
-]
+  }, 1000);
+}
