@@ -1,34 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz App - Interactive Learning</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <nav class="navbar">
-    <h1>Quiz App</h1>
-    <button id="login-btn" class="btn">Log in</button>
-  </nav>
-  
-  <div class="container">
-    <aside class="sidebar">
-      <button id="start-btn" class="btn">Start Quiz</button>
-      <button id="admin-btn" class="btn">Admin Dashboard</button>
-    </aside>
-    
-    <main class="quiz-container">
-      <h2>Welcome to the Quiz</h2>
-      <div id="question-container" class="hide">
-        <p id="question">Question goes here...</p>
-        <div id="answer-buttons" class="btn-container"></div>
-        <button id="next-btn" class="btn hide">Next</button>
-      </div>
-      <p id="timer">Time Left: 30s</p>
-    </main>
-  </div>
-
-  <script src="script.js"></script>
+    <div class="quiz-container">
+        <h1>Quiz App</h1>
+        <button id="start-btn" class="btn">Start Quiz</button>
+        <div id="question-container" class="hide">
+            <p id="timer"></p>
+            <h2 id="question"></h2>
+            <div id="answer-buttons" class="btn-container"></div>
+            <button id="next-btn" class="btn hide">Next</button>
+        </div>
+        <button id="login-btn" class="btn">Login</button>
+        <button id="admin-btn" class="btn">Admin</button>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
