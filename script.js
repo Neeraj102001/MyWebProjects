@@ -4,22 +4,29 @@ const questionContainerElement = document.getElementById('question-container');
 const questionElement = document.getElementById('question');
 const answerButtonsElement = document.getElementById('answer-buttons');
 const timerElement = document.getElementById('timer');
+const loginButton = document.getElementById('login-btn');
+const adminButton = document.getElementById('admin-btn');
 
 let shuffledQuestions = [];
 let currentQuestionIndex = 0;
 let timeLeft = 10;
 let timer;
 
-// Fetch more real-time questions from Open Trivia API
-async function fetchQuestions(amount = 10) {
+// Fetch real-time questions from Open Trivia API with specific categories
+async function fetchQuestions(amount = 15) {
   try {
-    const response = await fetch(`https://opentdb.com/api.php?amount=${amount}&type=multiple`);
-    const data = await response.json();
-    return data.results.map(q => ({
-      question: q.question,
-      answers: [...q.incorrect_answers, q.correct_answer].sort(() => Math.random() - 0.5),
-      correct: q.correct_answer
-    }));
+    const categories = [17, 21, 18, 30, 9]; // Science, Sports, CS, Gadgets, General Knowledge
+    let questions = [];
+    for (let category of categories) {
+      const response = await fetch(`https://opentdb.com/api.php?amount=${Math.ceil(amount / categories.length)}&category=${category}&type=multiple`);
+      const data = await response.json();
+      questions = questions.concat(data.results.map(q => ({
+        question: q.question,
+        answers: [...q.incorrect_answers, q.correct_answer].sort(() => Math.random() - 0.5),
+        correct: q.correct_answer
+      })));
+    }
+    return questions;
   } catch (error) {
     console.error('Error fetching questions:', error);
     return [];
@@ -34,7 +41,7 @@ nextButton.addEventListener('click', () => {
 
 async function startGame() {
   startButton.classList.add('hide');
-  shuffledQuestions = await fetchQuestions(15); // Fetching 15 questions for variety
+  shuffledQuestions = await fetchQuestions(15); // Fetching 15 questions
   currentQuestionIndex = 0;
   questionContainerElement.classList.remove('hide');
   setNextQuestion();
@@ -95,3 +102,13 @@ function startTimer() {
     }
   }, 1000);
 }
+
+// Login button functionality (placeholder for future authentication)
+loginButton.addEventListener('click', () => {
+  alert('Login functionality coming soon!');
+});
+
+// Admin button functionality (placeholder for future admin features)
+adminButton.addEventListener('click', () => {
+  alert('Admin Dashboard feature coming soon!');
+});
